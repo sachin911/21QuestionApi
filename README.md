@@ -3,11 +3,9 @@
 Starter project for creating a MVC express server, using
 
 + express
-+ mongoose
++ MySql
 + babel-cli
 + winston and morgan for logging
-+ Async/Await
-
 
 ## Starting the server
 
