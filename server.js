@@ -9,6 +9,7 @@ import config from './core/config/config.dev'
 import user from './routes/user.route'
 import friend from './routes/friend.route'
 import game from './routes/game.route'
+import notification from './routes/notification.route'
 import {connectDatabase} from './db/connect'
 
 const port = config.serverPort;
@@ -41,7 +42,7 @@ const server = app.listen(port, () => {
 app.use('/user', user);
 app.use('/friend', friend);
 app.use('/game', game);
-// app.use('/cars', cars);
+app.use('/notification', notification);
 
 // const server = http.createServer(app);
 const io = socketIo(server, { "Access-Control-Allow-Origin": "http://localhost:3001/"});
