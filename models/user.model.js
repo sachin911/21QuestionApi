@@ -37,4 +37,41 @@ userModel.getUser = (email, password) => {
 	})
 }
 
+userModel.getUserwithId = (userId) => {
+	return new Promise((resolve, reject) => {
+		db.query("Select * from user where user.id="+userId+" and user.status='ACTIVE'", (error, results, fields) => {
+			if(error) {
+				reject(error);
+			}else if(results.length == 0){
+				resolve({
+					message:"The user doesnt exists",
+					error: "no user"
+				});
+			}else{
+				delete results[0].password;
+				resolve(results[0]);
+			}
+		})
+	})
+}
+
+userModel.searchUserByEmail = (email) => {
+	return new Promise((resolve, reject) => {
+		db.query("select * from user where email = '"+email+"' and status = 'ACTIVE'", (error, results, fields) => {
+			if (error) {
+				reject(error);
+			}else if(results.length == 0){
+				resolve({
+					message:"The user doesnt exists",
+					error: "no user"
+				});
+			}else{
+				delete results[0].password;
+				resolve(results[0]);
+			}
+		})
+	})
+}
+
+
 export default userModel;

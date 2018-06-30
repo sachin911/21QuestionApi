@@ -50,6 +50,8 @@ CREATE TABLE question (
 	id int primary key not null AUTO_INCREMENT,
 	gameId int not null,
 	question varchar(100),
+	answerGiven varchar(10),
+	questionStatus varchar(10),
 	questionNumber int,
 	createdAt timestamp NULL DEFAULT CURRENT_TIMESTAMP,
 	updatedAt timestamp NULL DEFAULT NULL,

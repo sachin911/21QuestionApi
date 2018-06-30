@@ -2,7 +2,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import cors from "cors";
 import http from "http";
-import socketIo from "socket.io";
 import logger from './core/logger/app-logger'
 import morgan from 'morgan'
 import config from './core/config/config.dev'
@@ -11,6 +10,7 @@ import friend from './routes/friend.route'
 import game from './routes/game.route'
 import notification from './routes/notification.route'
 import {connectDatabase} from './db/connect'
+import { socketConnection } from './utils/socket'
 
 const port = config.serverPort;
 logger.stream = {
@@ -39,24 +39,12 @@ const server = app.listen(port, () => {
     logger.info('server started - ', port);
 });
 
+socketConnection(server);
+
 app.use('/user', user);
 app.use('/friend', friend);
 app.use('/game', game);
 app.use('/notification', notification);
-
-// const server = http.createServer(app);
-const io = socketIo(server, { "Access-Control-Allow-Origin": "http://localhost:3001/"});
-// io.set('origins', 'http://localhost.com:3001');
-io.on("connection", socket => {
-  socket.emit("fromServer", "testing");
-});
-
-io.on("disconnect", () => console.log("Client disconnected"));
-
-const getApiAndEmit = (socket) => {
-	console.log("inside the function getApiAndEmit");
-	socket.emit("fromServer", "testing");
-}
 
 //Index route
 app.get('/', (req, res) => {
