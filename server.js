@@ -8,6 +8,7 @@ import config from './core/config/config.dev'
 import user from './routes/user.route'
 import friend from './routes/friend.route'
 import game from './routes/game.route'
+import dashboard from './routes/dashboard.route'
 import notification from './routes/notification.route'
 import {connectDatabase} from './db/connect'
 import { socketConnection } from './utils/socket'
@@ -39,12 +40,13 @@ const server = app.listen(port, () => {
     logger.info('server started - ', port);
 });
 
-socketConnection(server);
+// socketConnection(server);
 
 app.use('/user', user);
 app.use('/friend', friend);
 app.use('/game', game);
 app.use('/notification', notification);
+app.use('/dashboard', dashboard);
 
 //Index route
 app.get('/', (req, res) => {

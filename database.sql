@@ -8,7 +8,7 @@ CREATE TABLE `user` (
 	`loss` int DEFAULT 0,
   `createdAt` timestamp NULL DEFAULT CURRENT_TIMESTAMP,
   `updatedAt` timestamp NULL DEFAULT NULL,
-	'loggedInStatus' varchar(20),
+	`loggedInStatus` varchar(20),
   PRIMARY KEY (`id`),
 	UNIQUE(`email`)
 )
