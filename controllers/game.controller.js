@@ -1,8 +1,9 @@
 import gameModel from '../models/game.model';
 import friendModel from '../models/friend.model';
+import userModel from '../models/user.model';
 import logger from '../core/logger/app-logger';
 import modifyTable from '../utils/modifyTable';
-
+import randomizer from '../utils/randomizer';
 let gameController = {};
 
 /**
@@ -17,9 +18,12 @@ gameController.createRequest = async (req, res) => {
 			return answer.results[0];
 		});
 
-	const gameObj = {
+	const players = randomizer.randomizePlayers(req.body.userId, req.body.friendId);
+
+	let gameObj = {
 		friendshipId : friendship.id,
-		status: "PENDING"
+		status: "PENDING",
+		...players
 	}
 
 	// the game is being created
@@ -36,15 +40,47 @@ gameController.createRequest = async (req, res) => {
 	//inserting the notification row
 	let notification =  await modifyTable.insertRow('notification', notificationObj);
 
+	gameObj = await gameModel.getGame(game.results.insertId);
+	notificationObj.id = notification.results.insertId;
+
 	//return the game id and the notification id back to request
+
+	const questionPersonInfo = await userModel.getUserwithId(players.questionPerson);
+	const answerPersonInfo = await userModel.getUserwithId(players.answerPerson);
+
 	let ret = {
-		gameId: game.results.insertId,
-		notificationId: notification.results.insertId
+		game: gameObj,
+		notification: notificationObj,
+		questionPersonInfo: questionPersonInfo,
+		answerPersonInfo: answerPersonInfo
 	}
 
 	res.json(ret);
 
 }
 
+
+gameController.joinGame = async (req, res) => {
+	const gameObj = await gameModel.getGame(req.query.gameId)
+		.then((answer) => {
+			return answer;
+		});
+
+	logger.info("Got the game data>>>", gameObj);
+
+	//return the game id and the notification id back to request
+
+	const questionPersonInfo = await userModel.getUserwithId(gameObj.questionPerson);
+	const answerPersonInfo = await userModel.getUserwithId(gameObj.answerPerson);
+
+	let ret = {
+		game: gameObj,
+		notification: {},
+		questionPersonInfo: questionPersonInfo,
+		answerPersonInfo: answerPersonInfo
+	}
+
+	res.json(ret);
+}
 
 export default gameController;

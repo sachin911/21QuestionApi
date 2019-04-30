@@ -10,6 +10,10 @@ router.post('/getUser', (req, res) => {
 	userController.getUser(req, res);
 });
 
+router.post('/searchUser', (req, res) => {
+	userController.searchUser(req, res);
+});
+
 
 // router.post('/addUser', (req, res) => {
 //     carController.addCar(req, res);

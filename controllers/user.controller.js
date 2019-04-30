@@ -29,5 +29,28 @@ userController.getUser = (req, res) => {
 	});
 }
 
+userController.getUserwithId = (req, res) => {
+	userModel.getUserwithId(req.body.userId)
+	.then((answer) => {
+		logger.info("Got the user information", answer);
+		res.json(answer);
+	})
+	.catch((error) => {
+		logger.error('Error in getting the user', error);
+		res.json(error);
+	});
+}
+
+userController.searchUser = (req, res) => {
+	userModel.searchUserByEmail(req.body.email)
+	.then((answer) => {
+		logger.info("Got the user information", answer);
+		res.json(answer);
+	})
+	.catch((error) => {
+		logger.error('Error in getting the user', error);
+		res.json(error);
+	});
+}
 
 export default userController;

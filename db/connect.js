@@ -8,7 +8,7 @@ const connectDatabase = () => {
 	    user: 'root',
 	    password: 'root',
 			port: '8889',
-			database : '21Question'
+			database : '21_questions'
 		});
 
     db.connect(function(err){

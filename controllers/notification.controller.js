@@ -1,4 +1,5 @@
 import notificationModel from '../models/notification.model';
+import gameModel from '../models/game.model';
 import logger from '../core/logger/app-logger';
 
 let notificationController = {};
